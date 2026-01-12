@@ -540,52 +540,54 @@
                 <!-- Dokter akan di-populate oleh JavaScript -->
             </div>
             <div id="doctorPagination" class="doctor-pagination" aria-hidden="true">0/0</div>
+        </div>
+    </div>
 
-            <!-- Shared Consultation Form (hidden until a doctor is selected) -->
-            <div id="consultForm" class="consult-form cta-hidden" aria-hidden="true">
-                <h3>Form Konsultasi</h3>
-                <p class="from-patient"><strong>Dari Pasien:</strong></p>
-                <p id="fromPatientName">Nama: -</p>
-                <p id="fromPatientInfo">Jenis Kelamin: - | Usia: - bulan | Tinggi: - cm</p>
-                <p>Dokter Pilihan: <strong id="selectedDoctorName">-</strong></p>
+    <!-- Consultation Modal (separate popup) -->
+    <div id="consultModal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <span class="modal-close" id="consultModalClose">&times;</span>
+            <h2>Form Konsultasi</h2>
+            <p class="from-patient"><strong>Dari Pasien:</strong></p>
+            <p id="fromPatientName">Nama: -</p>
+            <p id="fromPatientInfo">Jenis Kelamin: - | Usia: - bulan | Tinggi: - cm</p>
+            <p>Dokter Pilihan: <strong id="selectedDoctorName">-</strong></p>
 
-                <form id="modalConsultForm">
-                    <input type="hidden" id="consultDoctor" name="doctor" value="">
-                    <input type="hidden" id="consultDay" name="day" value="">
+            <form id="modalConsultForm">
+                <input type="hidden" id="consultDoctor" name="doctor" value="">
+                <input type="hidden" id="consultDay" name="day" value="">
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="consultParent">Nama Orang Tua</label>
-                            <input type="text" id="consultParent" name="parent" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="consultPhone">Nomor Telepon/WA</label>
-                            <input type="text" id="consultPhone" name="phone">
-                        </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="consultParent">Nama Orang Tua</label>
+                        <input type="text" id="consultParent" name="parent" required>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group small">
-                            <label for="consultDate">Tanggal</label>
-                            <input type="date" id="consultDate" name="date">
-                        </div>
-                        <div class="form-group small">
-                            <label for="consultTime">Waktu</label>
-                            <input type="time" id="consultTime" name="time">
-                        </div>
+                    <div class="form-group">
+                        <label for="consultPhone">Nomor Telepon/WA</label>
+                        <input type="text" id="consultPhone" name="phone">
                     </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn primary">Kirim</button>
-                        <button type="button" id="consultCancel" class="btn secondary">Batal</button>
-                    </div>
-                </form>
-
-                <div id="consultSuccess" class="consult-success cta-hidden">
-                    <p>Terima kasih, permintaan konsultasi telah dikirim. Kami akan menghubungi Anda.</p>
                 </div>
-            </div>
 
+                <div class="form-row">
+                    <div class="form-group small">
+                        <label for="consultDate">Tanggal</label>
+                        <input type="date" id="consultDate" name="date">
+                    </div>
+                    <div class="form-group small">
+                        <label for="consultTime">Waktu</label>
+                        <input type="time" id="consultTime" name="time">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Kirim</button>
+                    <button type="button" id="consultCancel" class="btn secondary">Batal</button>
+                </div>
+            </form>
+
+            <div id="consultSuccess" class="consult-success cta-hidden">
+                <p>Terima kasih, permintaan konsultasi telah dikirim. Kami akan menghubungi Anda.</p>
+            </div>
             <p class="modal-note">*Untuk informasi lebih lanjut, hubungi kami melalui WhatsApp atau telepon.</p>
         </div>
     </div>

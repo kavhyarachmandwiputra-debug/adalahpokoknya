@@ -224,7 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Consultation form functionality
   let selectedDoctor = null; // currently selected doctor object
   const consultBtn = document.querySelector('.modal-consult');
-  const consultForm = document.getElementById('consultForm');
+  const consultModal = document.getElementById('consultModal');
+  const consultModalClose = document.getElementById('consultModalClose');
   const modalConsultForm = document.getElementById('modalConsultForm');
   const consultCancel = document.getElementById('consultCancel');
   const consultSuccess = document.getElementById('consultSuccess');
@@ -252,24 +253,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // helpers to open/close consult modal
+  function consultKeydownHandler(e) { if (e.key === 'Escape') closeConsultModal(); }
+  function openConsultModal() {
+    if (!consultModal) return;
+    populateFromPatient();
+    consultModal.style.display = 'block';
+    consultModal.setAttribute('aria-hidden','false');
+
+    // ensure form visible and success hidden
+    if (modalConsultForm) modalConsultForm.classList.remove('cta-hidden');
+    if (consultSuccess) consultSuccess.classList.add('cta-hidden');
+
+    // focus the first control inside the modal for accessibility
+    setTimeout(() => {
+      const firstControl = consultModal.querySelector('input, select, textarea, button');
+      if (firstControl && typeof firstControl.focus === 'function') firstControl.focus();
+    }, 300);
+
+    // add escape key handler for the consult modal
+    document.addEventListener('keydown', consultKeydownHandler);
+
+    // close the doctor modal when opening consult popup
+    closeDoctorModal();
+  }
+  function closeConsultModal() {
+    if (!consultModal) return;
+    consultModal.style.display = 'none';
+    consultModal.setAttribute('aria-hidden','true');
+    if (modalConsultForm && modalConsultForm.reset) modalConsultForm.reset();
+    if (consultSuccess) consultSuccess.classList.add('cta-hidden');
+    document.removeEventListener('keydown', consultKeydownHandler);
+  }
+
   if (consultBtn) {
     consultBtn.addEventListener('click', () => {
       if (!selectedDoctor) { alert('Silakan pilih dokter terlebih dahulu.'); return; }
       // set selected doctor hidden value (shared form)
       const consultHiddenInput = document.getElementById('consultDoctor');
       if (consultHiddenInput) consultHiddenInput.value = selectedDoctor.name;
-      populateFromPatient();
-      // show shared form
-      if (consultForm) consultForm.classList.remove('cta-hidden');
-      if (consultForm) consultForm.setAttribute('aria-hidden', 'false');
-      if (consultForm) consultForm.scrollIntoView({behavior:'smooth', block:'center'});
-
-      // focus the first control inside the form for accessibility
-      setTimeout(() => {
-        if (!consultForm) return;
-        const firstControl = consultForm.querySelector('input, select, textarea, button');
-        if (firstControl && typeof firstControl.focus === 'function') firstControl.focus();
-      }, 300);
+      openConsultModal();
     });
     // hide consult button initially
     consultBtn.classList.add('cta-hidden');
@@ -277,12 +300,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (consultCancel) {
     consultCancel.addEventListener('click', () => {
-      consultForm.classList.add('cta-hidden');
-      consultForm.setAttribute('aria-hidden', 'true');
-      if (modalConsultForm && modalConsultForm.reset) modalConsultForm.reset();
-      if (consultSuccess) consultSuccess.classList.add('cta-hidden');
+      closeConsultModal();
     });
   }
+
+  // close consult modal when pressing the close icon
+  if (consultModalClose) {
+    consultModalClose.addEventListener('click', () => {
+      closeConsultModal();
+    });
+  }
+
+  // close when clicking outside consult modal content
+  window.addEventListener('click', (event) => {
+    if (consultModal && event.target === consultModal) {
+      closeConsultModal();
+    }
+  });
 
   if (modalConsultForm) {
     modalConsultForm.addEventListener('submit', (e) => {
@@ -292,28 +326,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show confirmation message (replace form)
       modalConsultForm.classList.add('cta-hidden');
       consultSuccess.classList.remove('cta-hidden');
-      // Auto-reset and hide after a short delay
+      // Auto-reset and close after a short delay
       setTimeout(() => {
-        consultForm.classList.add('cta-hidden');
-        consultSuccess.classList.add('cta-hidden');
-        if (modalConsultForm && modalConsultForm.reset) modalConsultForm.reset();
+        closeConsultModal();
       }, 4000);
     });
   }
 
-  // Reset/hide form when modal closed (shared form)
-  const observerForModalClose = new MutationObserver(() => {
-    if (modal.style.display === 'none') {
-      if (consultForm) {
-        consultForm.classList.add('cta-hidden');
-        consultForm.setAttribute('aria-hidden', 'true');
-      }
-      if (modalConsultForm && modalConsultForm.reset) modalConsultForm.reset();
-      if (consultSuccess) consultSuccess.classList.add('cta-hidden');
-    }
-  });
 
-  observerForModalClose.observe(modal, { attributes: true, attributeFilter: ['style'] });
 
   // When modal opens/close ensure consult button/selection reset
   function resetSelection() {
