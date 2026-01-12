@@ -99,7 +99,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
       doctorList.appendChild(doctorItem);
     });
+
+    // update pagination once items have been added
+    updatePagination();
   }
+
+  // Update pagination (current/total) display
+  const paginationEl = document.getElementById('doctorPagination');
+  function updatePagination() {
+    if (!paginationEl) return;
+    const items = doctorList.querySelectorAll('.doctor-item');
+    const total = items.length;
+    if (total === 0) {
+      paginationEl.setAttribute('aria-hidden','true');
+      paginationEl.textContent = '';
+      return;
+    }
+    const slideWidth = doctorList.clientWidth || 1;
+    const idx = Math.round(doctorList.scrollLeft / slideWidth) + 1;
+    const current = Math.min(Math.max(idx,1), total);
+    paginationEl.textContent = `${current}/${total}`;
+    paginationEl.setAttribute('aria-hidden','false');
+  }
+
+  // update pagination on scroll (live), and after snapping we'll ensure it's exact
+  doctorList.addEventListener('scroll', () => {
+    updatePagination();
+  });
 
   // Open modal
   function openDoctorModal() {
@@ -109,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // reset scroll to first slide and focus for keyboard control
     doctorList.scrollLeft = 0;
     doctorList.focus();
+    updatePagination();
     document.addEventListener('keydown', keydownHandler);
   }
 

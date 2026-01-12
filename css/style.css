@@ -1183,16 +1183,25 @@ section>p {
     display: flex;
     flex-direction: row; /* horizontal */
     gap: 20px;
-    margin: 10px 0 30px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 6px; /* space for scrollbar */
-    cursor: grab;
-}
+		margin: 10px 0 10px;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scroll-snap-type: x mandatory;
+		/* hide native scrollbar while retaining scroll behavior */
+		-ms-overflow-style: none;  /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+		cursor: grab;
+	}
 
-.doctor-list.dragging {
-    cursor: grabbing;
+	/* hide webkit scrollbar */
+	.doctor-list::-webkit-scrollbar { display: none; }
+
+	.doctor-pagination {
+		text-align: center;
+		font-size: 14px;
+		color: var(--dark-gray);
+		margin-bottom: 18px;
+		font-weight: 600;
 }
 
 /* Make each doctor occupy one full slide of the modal */
