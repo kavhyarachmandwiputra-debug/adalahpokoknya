@@ -1322,12 +1322,19 @@ section>p {
     border-radius: 10px;
     margin-top: 16px;
     box-shadow: var(--shadow-sm);
-}
+		/* Make the form scrollable when content exceeds available space */
+		max-height: 40vh; /* limit height relative to viewport */
+		overflow-y: auto;
+		box-sizing: border-box;
+	}
 
-.from-patient {
-    background: transparent;
-    padding: 8px 10px;
-    border-radius: 6px;
+	/* Slightly styled scrollbar for better visibility on desktop */
+	.consult-form::-webkit-scrollbar { width: 8px; }
+	.consult-form::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 6px; }
+	.consult-form::-webkit-scrollbar-track { background: transparent; }
+
+	@media (max-width: 600px) {
+		.consult-form { max-height: 55vh; }
     color: var(--dark-gray);
 }
 

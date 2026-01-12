@@ -263,6 +263,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (consultForm) consultForm.classList.remove('cta-hidden');
       if (consultForm) consultForm.setAttribute('aria-hidden', 'false');
       if (consultForm) consultForm.scrollIntoView({behavior:'smooth', block:'center'});
+
+      // focus the first control inside the form for accessibility
+      setTimeout(() => {
+        if (!consultForm) return;
+        const firstControl = consultForm.querySelector('input, select, textarea, button');
+        if (firstControl && typeof firstControl.focus === 'function') firstControl.focus();
+      }, 300);
     });
     // hide consult button initially
     consultBtn.classList.add('cta-hidden');
