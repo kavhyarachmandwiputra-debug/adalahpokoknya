@@ -525,6 +525,70 @@
         </div>
     </footer>
 
+    <!-- Doctor Schedule Modal -->
+    <div id="doctorModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Dokter Bertugas Hari Ini</h2>
+            <p class="modal-date" id="todayDate"></p>
+            <div class="modal-nav">
+                <button class="modal-prev" aria-label="Previous">‹</button>
+                <button class="modal-consult cta-hidden" aria-label="Konsultasi">Konsultasi Sekarang</button>
+                <button class="modal-next" aria-label="Next">›</button>
+            </div>
+            <div id="doctorList" class="doctor-list" tabindex="0" role="listbox" aria-label="Daftar dokter">
+                <!-- Dokter akan di-populate oleh JavaScript -->
+            </div>
+
+            <!-- Shared Consultation Form (hidden until a doctor is selected) -->
+            <div id="consultForm" class="consult-form cta-hidden" aria-hidden="true">
+                <h3>Form Konsultasi</h3>
+                <p class="from-patient"><strong>Dari Pasien:</strong></p>
+                <p id="fromPatientName">Nama: -</p>
+                <p id="fromPatientInfo">Jenis Kelamin: - | Usia: - bulan | Tinggi: - cm</p>
+                <p>Dokter Pilihan: <strong id="selectedDoctorName">-</strong></p>
+
+                <form id="modalConsultForm">
+                    <input type="hidden" id="consultDoctor" name="doctor" value="">
+                    <input type="hidden" id="consultDay" name="day" value="">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="consultParent">Nama Orang Tua</label>
+                            <input type="text" id="consultParent" name="parent" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="consultPhone">Nomor Telepon/WA</label>
+                            <input type="text" id="consultPhone" name="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group small">
+                            <label for="consultDate">Tanggal</label>
+                            <input type="date" id="consultDate" name="date">
+                        </div>
+                        <div class="form-group small">
+                            <label for="consultTime">Waktu</label>
+                            <input type="time" id="consultTime" name="time">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary">Kirim</button>
+                        <button type="button" id="consultCancel" class="btn secondary">Batal</button>
+                    </div>
+                </form>
+
+                <div id="consultSuccess" class="consult-success cta-hidden">
+                    <p>Terima kasih, permintaan konsultasi telah dikirim. Kami akan menghubungi Anda.</p>
+                </div>
+            </div>
+
+            <p class="modal-note">*Untuk informasi lebih lanjut, hubungi kami melalui WhatsApp atau telepon.</p>
+        </div>
+    </div>
+
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/6281234567890?text=Halo%20Admin%20Stunting%20Care" class="floating-wa" target="_blank">
         <i data-feather="message-circle" style="width:30px; height:30px;"></i>
